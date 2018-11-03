@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     	password: user_params[:password],
     	password_confirmation: user_params[:password_confirmation]
     	)
-    byebug
+    #byebug
     if @user.save
       flash[:success] = "Welcome to the Sample App!"
       redirect_to @user
