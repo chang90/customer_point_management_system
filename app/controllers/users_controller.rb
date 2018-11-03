@@ -1,33 +1,46 @@
 class UsersController < ApplicationController
-
-  attr_accessor :user
-  def show
-    @user = User.find(params[:id])
+	skip_before_action :authenticate_request, only: %i[login register]
+	# POST /register
+  def register
+    @user = User.create(user_params)
+   if @user.save
+    response = { message: 'User created successfully'}
+    render json: response, status: :created 
+   else
+    render json: @user.errors, status: :bad
+   end 
   end
 
-  def new
-  	@user = User.new
+  def login
+    authenticate params[:email], params[:password]
   end
 
-  def create
-    @user = User.new(
-    	email: user_params[:email],
-    	password: user_params[:password],
-    	password_confirmation: user_params[:password_confirmation]
-    	)
-    #byebug
-    if @user.save
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
-    else
-      render 'new'
-    end
+  def test
+    render json: {
+          message: 'You have passed authentication and authorization test'
+        }
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:email, :password,
-                                 :password_confirmation)
+    params.permit(
+      :name,
+      :email,
+      :password
+    )
+  end
+
+  def authenticate(email, password)
+    command = AuthenticateUser.call(email, password)
+
+    if command.success?
+      render json: {
+        access_token: command.result,
+        message: 'Login Successful'
+      }
+    else
+      render json: { error: command.errors }, status: :unauthorized
+    end
   end
 end
