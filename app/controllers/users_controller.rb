@@ -1,17 +1,33 @@
 class UsersController < ApplicationController
-  def new
-    @user = User.new 
+
+  attr_accessor :user
+  def show
+    @user = User.find(params[:id])
   end
-  
+
+  def new
+  	@user = User.new
+  end
+
   def create
-    @user = User.new(params[:user])
+    @user = User.new(
+    	email: user_params[:email],
+    	password: user_params[:password],
+    	password_confirmation: user_params[:password_confirmation]
+    	)
+    byebug
     if @user.save
-      flash[:notice] = "You signed up successfully"
-      flash[:color]= "valid"
+      flash[:success] = "Welcome to the Sample App!"
+      redirect_to @user
     else
-      flash[:notice] = "Form is invalid"
-      flash[:color]= "invalid"
+      render 'new'
     end
-    render "new"
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:email, :password,
+                                 :password_confirmation)
   end
 end
