@@ -8,6 +8,11 @@ class CustomersController < ApplicationController
     render json: @customers
   end
 
+  def showFiveCustomers
+    @customers = Customer.order("date_of_birth asc").limit(5)
+    render json: @customers
+  end
+
   # GET /customers/1
   def show
     render json: @customer
