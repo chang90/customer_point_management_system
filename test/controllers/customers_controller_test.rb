@@ -12,7 +12,7 @@ class CustomersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create customer" do
     assert_difference('Customer.count') do
-      post customers_url, params: { customer: { costCode: @customer.costCode, date_of_birth: @customer.date_of_birth, email: @customer.email, first_name: @customer.first_name, last_name: @customer.last_name, references: @customer.references, user_id: @customer.user_id } }, as: :json
+      post customers_url, params: { customer: { custCode: @customer.custCode, date_of_birth: @customer.date_of_birth, email: @customer.email, first_name: @customer.first_name, last_name: @customer.last_name, references: @customer.references, user_id: @customer.user_id } }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class CustomersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update customer" do
-    patch customer_url(@customer), params: { customer: { costCode: @customer.costCode, date_of_birth: @customer.date_of_birth, email: @customer.email, first_name: @customer.first_name, last_name: @customer.last_name, references: @customer.references, user_id: @customer.user_id } }, as: :json
+    patch customer_url(@customer), params: { customer: { custCode: @customer.custCode, date_of_birth: @customer.date_of_birth, email: @customer.email, first_name: @customer.first_name, last_name: @customer.last_name, references: @customer.references, user_id: @customer.user_id } }, as: :json
     assert_response 200
   end
 
