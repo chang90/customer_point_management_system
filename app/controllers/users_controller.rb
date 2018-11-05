@@ -42,7 +42,8 @@ class UsersController < ApplicationController
         message: 'Login Successful',
         user: {
           username: @user.name,
-          email: @user.email
+          email: @user.email,
+          id: @user.id
         }
       }
     else
