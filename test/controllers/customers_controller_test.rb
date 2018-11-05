@@ -6,43 +6,33 @@ class CustomersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get customers_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_customer_url
+    get customers_url, as: :json
     assert_response :success
   end
 
   test "should create customer" do
     assert_difference('Customer.count') do
-      post customers_url, params: { customer: { costCode: @customer.costCode, date_of_birth: @customer.date_of_birth, email: @customer.email, first_name: @customer.first_name, last_name: @customer.last_name, references: @customer.references, user_id: @customer.user_id } }
+      post customers_url, params: { customer: { custCode: @customer.custCode, date_of_birth: @customer.date_of_birth, email: @customer.email, first_name: @customer.first_name, last_name: @customer.last_name, references: @customer.references, user_id: @customer.user_id } }, as: :json
     end
 
-    assert_redirected_to customer_url(Customer.last)
+    assert_response 201
   end
 
   test "should show customer" do
-    get customer_url(@customer)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_customer_url(@customer)
+    get customer_url(@customer), as: :json
     assert_response :success
   end
 
   test "should update customer" do
-    patch customer_url(@customer), params: { customer: { costCode: @customer.costCode, date_of_birth: @customer.date_of_birth, email: @customer.email, first_name: @customer.first_name, last_name: @customer.last_name, references: @customer.references, user_id: @customer.user_id } }
-    assert_redirected_to customer_url(@customer)
+    patch customer_url(@customer), params: { customer: { custCode: @customer.custCode, date_of_birth: @customer.date_of_birth, email: @customer.email, first_name: @customer.first_name, last_name: @customer.last_name, references: @customer.references, user_id: @customer.user_id } }, as: :json
+    assert_response 200
   end
 
   test "should destroy customer" do
     assert_difference('Customer.count', -1) do
-      delete customer_url(@customer)
+      delete customer_url(@customer), as: :json
     end
 
-    assert_redirected_to customers_url
+    assert_response 204
   end
 end
